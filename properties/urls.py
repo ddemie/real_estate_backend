@@ -1,13 +1,10 @@
 # properties/urls.py
 
 from django.urls import path
-from rest_framework.routers import DefaultRouter
-from .views import PropertyViewSet, ScenarioViewSet, ApplyScenarioViewSet
+from . import views
 
-router = DefaultRouter()
-router.register(r'properties', PropertyViewSet)
-router.register(r'scenarios', ScenarioViewSet)
-
-urlpatterns = router.urls + [
-    path('apply-scenario/', ApplyScenarioViewSet.as_view(), name='apply-scenario')
+urlpatterns = [
+    path('properties/', views.get_properties, name='get_properties'),
+    path('scenarios/', views.get_scenarios, name='get_scenarios'),
+    path('properties/<int:property_id>/apply-scenario/<int:scenario_id>/', views.apply_scenario_to_property, name='apply_scenario'),
 ]

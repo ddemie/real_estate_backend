@@ -1,10 +1,11 @@
+# serializers.py
 from rest_framework import serializers
 from .models import Property, Scenario, ScenarioImpact
 
 class PropertySerializer(serializers.ModelSerializer):
     class Meta:
         model = Property
-        fields = ['id', 'name', 'latitude', 'longitude', 'address', 'base_value']
+        fields = ['id', 'name', 'address', 'price', 'latitude', 'longitude']
 
 
 class ScenarioSerializer(serializers.ModelSerializer):
