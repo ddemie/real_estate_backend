@@ -1,5 +1,6 @@
 # properties/views.py
 
+import json
 from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -7,6 +8,35 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from .models import Property, Scenario, ScenarioImpact
 from .serializers import PropertySerializer, ScenarioSerializer, ScenarioImpactSerializer
+from rest_framework import status
+from rest_framework.decorators import api_view
+
+
+
+# update property description
+def update_property_description(request, property_id):
+    if request.method == 'PATCH':
+        property_obj = get_object_or_404(Property, id=property_id)
+        
+        # Parse JSON data
+        data = json.loads(request.body)
+        new_description = data.get("description")
+
+        if new_description:
+            property_obj.description = new_description
+            property_obj.save()
+            return JsonResponse({"success": True, "description": property_obj.description})
+        else:
+            return JsonResponse({"error": "Description not provided."}, status=400)
+    
+    return JsonResponse({"error": "Only PATCH method is allowed."}, status=405)
+
+
+# New view to get a single property by its ID
+def get_property_by_id(request, property_id):
+    property_obj = get_object_or_404(Property, id=property_id)
+    serializer = PropertySerializer(property_obj)
+    return JsonResponse(serializer.data)
 
 
 # GET /api/properties

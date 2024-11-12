@@ -5,7 +5,7 @@ from .models import Property, Scenario, ScenarioImpact
 class PropertySerializer(serializers.ModelSerializer):
     class Meta:
         model = Property
-        fields = ['id', 'name', 'address', 'price', 'latitude', 'longitude']
+        fields = ['id', 'name', 'address', 'price', 'description', 'latitude', 'longitude']
 
 
 class ScenarioSerializer(serializers.ModelSerializer):
